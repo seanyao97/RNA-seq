@@ -1,0 +1,91 @@
+import pandas as pd
+import re
+from collections import Counter
+
+# 读取Excel文件
+file_path = r"C:\Users\Admin\Desktop\OFGST8.xlsx"
+df = pd.read_excel(file_path)
+
+# 获取HMMER列数据
+hmmer_data = df['HMMER'].tolist()
+
+# 定义正则表达式模式
+gh_pattern = re.compile(r'GH(\d+)')
+aa_pattern = re.compile(r'AA(\d+)')
+gt_pattern = re.compile(r'GT(\d+)')
+cbm_pattern = re.compile(r'CBM(\d+)')
+pl_pattern = re.compile(r'PL(\d+)')
+ce_pattern = re.compile(r'CE(\d+)')
+
+# 计数器初始化
+gh_counter = Counter()
+aa_counter = Counter()
+gt_counter = Counter()
+cbm_counter = Counter()
+pl_counter = Counter()
+ce_counter = Counter()
+
+# 遍历 HMMER 列并匹配正则表达式
+for entry in hmmer_data:
+    gh_matches = gh_pattern.findall(entry)
+    aa_matches = aa_pattern.findall(entry)
+    gt_matches = gt_pattern.findall(entry)
+    cbm_matches = cbm_pattern.findall(entry)
+    pl_matches = pl_pattern.findall(entry)
+    ce_matches = ce_pattern.findall(entry)
+
+    gh_counter.update(gh_matches)
+    aa_counter.update(aa_matches)
+    gt_counter.update(gt_matches)
+    cbm_counter.update(cbm_matches)
+    pl_counter.update(pl_matches)
+    ce_counter.update(ce_matches)
+
+# 打印结果
+print("GH Families:")
+for gh_family, count in gh_counter.items():
+    print(f"GH{gh_family}: {count}")
+
+# 输出总的GH家族计数
+gh_total_count = sum(gh_counter.values())
+print(f"GH: {gh_total_count}")
+
+print("\nAA Families:")
+for aa_family, count in aa_counter.items():
+    print(f"AA{aa_family}: {count}")
+
+# 输出总的AA家族计数
+aa_total_count = sum(aa_counter.values())
+print(f"AA: {aa_total_count}")
+
+print("\nGT Families:")
+for gt_family, count in gt_counter.items():
+    print(f"GT{gt_family}: {count}")
+
+# 输出总的GT家族计数
+gt_total_count = sum(gt_counter.values())
+print(f"GT: {gt_total_count}")
+
+print("\nCBM Families:")
+for cbm_family, count in cbm_counter.items():
+    print(f"CBM{cbm_family}: {count}")
+
+# 输出总的CBM家族计数
+cbm_total_count = sum(cbm_counter.values())
+print(f"CBM: {cbm_total_count}")
+
+print("\nPL Families:")
+for pl_family, count in pl_counter.items():
+    print(f"PL{pl_family}: {count}")
+
+# 输出总的PL家族计数
+pl_total_count = sum(pl_counter.values())
+print(f"PL: {pl_total_count}")
+
+print("\nCE Families:")
+for ce_family, count in ce_counter.items():
+    print(f"CE{ce_family}: {count}")
+
+# 输出总的CE家族计数
+ce_total_count = sum(ce_counter.values())
+print(f"CE: {ce_total_count}")
